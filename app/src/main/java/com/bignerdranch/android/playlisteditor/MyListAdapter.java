@@ -1,11 +1,12 @@
 package com.bignerdranch.android.playlisteditor;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +17,10 @@ import java.util.ArrayList;
 
 public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>{
     private ArrayList<String> listdata;
-
+    private Context mContext;
     // RecyclerView recyclerView;
-    public MyListAdapter(ArrayList<String> listdata) {
+    public MyListAdapter(Context con, ArrayList<String> listdata) {
+        mContext = con;
         this.listdata = listdata;
     }
     @Override
@@ -36,7 +38,10 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),"click on item: "+myListData,Toast.LENGTH_LONG).show();
+                // upload file name stored in myListData
+                Intent intent = new Intent(mContext, DownloadFile.class);
+                mContext.startActivity(intent);
+                //Toast.makeText(view.getContext(),"click on item: "+myListData,Toast.LENGTH_LONG).show();
             }
         });
     }

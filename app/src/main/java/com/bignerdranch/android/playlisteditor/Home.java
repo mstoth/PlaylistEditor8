@@ -72,6 +72,12 @@ public class Home extends Activity {
                                 recordings.add(songArray[i]);
                             }
                         }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(Home.this,"Loaded.",Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
                     } catch (Exception e) {
                         System.out.println(e.getLocalizedMessage());

@@ -24,12 +24,13 @@ public class PlayLists extends AppCompatActivity {
             DatabaseHelper.NAME, DatabaseHelper.JSON };
     final int[] to = new int[] { R.id.id, R.id.name, R.id.json };
     private ListView listView;
+    private ArrayList<String> playLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        ArrayList<String>playLists = intent.getStringArrayListExtra("playlists");
+        playLists = intent.getStringArrayListExtra("playlists");
         setContentView(R.layout.activity_play_lists);
 
         listView = (ListView) findViewById(R.id.list_view);
@@ -64,8 +65,9 @@ public class PlayLists extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.add_record) {
             // perform action to add record
-            //Intent add_mem = new Intent(this, AddPlaylist.class);
-            //startActivity(add_mem);
+            Intent add_mem = new Intent(this, AddPlaylist.class);
+            add_mem.putExtra("play_list",playLists);
+            startActivity(add_mem);
 
         }
         return super.onOptionsItemSelected(item);
