@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PlaylistEditor</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="playlists">Go To Playlists</string>
+    <string name="version">Version 1.0</string>
+    <string name="copyright">Copyright 2019 Allen Organ Co. All Rights Reserved</string>
+</resources>
