@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -17,16 +18,20 @@ public class AddPlaylistDialog extends AppCompatDialogFragment {
         builder.setMessage("Add Playlist")
                 .setPositiveButton("Import from Organ",new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(getContext(),Import.class);
+                        AddPlaylistDialog.this.startActivity(intent);
                         // import
                     }
                 })
-                .setNeutralButton("Local", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Local", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // local
+                        Intent intent = new Intent(getContext(),Local.class);
+                        AddPlaylistDialog.this.startActivity(intent);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // cancel
