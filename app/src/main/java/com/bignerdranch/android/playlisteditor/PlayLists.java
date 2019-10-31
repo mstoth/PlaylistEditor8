@@ -21,11 +21,11 @@ public class PlayLists extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private DBManager dbManager;
-    private SimpleCursorAdapter adapter;
+    private MyRecyclerViewAdapter adapter;
     final String[] from = new String[] { DatabaseHelper._ID,
             DatabaseHelper.NAME, DatabaseHelper.JSON };
     final int[] to = new int[] { R.id.id, R.id.name, R.id.json };
-    private ListView listView;
+    private RecyclerView listView;
     private ArrayList<String> playLists;
 
 //    @Override
@@ -42,24 +42,38 @@ public class PlayLists extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        playLists = intent.getStringArrayListExtra("playlists");
+        // playLists = intent.getStringArrayListExtra("playlists");
+        playLists = new ArrayList<String>();
         setContentView(R.layout.activity_play_lists);
 
-        listView = (ListView) findViewById(R.id.list_view);
+        listView = (RecyclerView) findViewById(R.id.Zip2RecyclerView);
 
         // setup database
         dbManager = new DBManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetch();
 
-        adapter = new SimpleCursorAdapter(this, R.layout.activity_view_record, cursor, from, to, 0);
-        adapter.notifyDataSetChanged();
+//        adapter = new SimpleCursorAdapter(this, R.layout.activity_view_record, cursor, from, to, 0);
+//        adapter.notifyDataSetChanged();
 
-        listView.setAdapter(adapter);
+        playLists.clear();
+        if (cursor.moveToFirst()){
+            do{
+                String data = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
+                playLists.add(data);
+            } while(cursor.moveToNext());
+        }
+        cursor.close();
+
+
+
+        adapter = new MyRecyclerViewAdapter(this, playLists);
+        adapter.notifyDataSetChanged();
 
 
 //        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.ZipRecyclerView);
@@ -97,10 +111,5 @@ public class PlayLists extends AppCompatActivity {
     }
 
 
-    public void deleteItem(int position, String item) {
-
-            Toast.makeText(this, "You clicked on row number " + position, Toast.LENGTH_SHORT).show();
-
-    }
 
 }
