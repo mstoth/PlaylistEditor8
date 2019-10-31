@@ -9,5 +9,11 @@
         android:orderInCategory="100"
         android:title="Add Record"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/delete_record"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:orderInCategory="100"
+        android:title="Delete Record"
+        app:showAsAction="always"/>
 
 </menu>

@@ -9,8 +9,10 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,20 @@ public class PlayLists extends AppCompatActivity {
     final int[] to = new int[] { R.id.id, R.id.name, R.id.json };
     private ListView listView;
     private ArrayList<String> playLists;
+
+//    @Override
+//    protected void onResume(Bundle savedInstanceState) {
+//        super.onResume();
+//        Cursor cursor = dbManager.fetch();
+//
+//        adapter = new SimpleCursorAdapter(this, R.layout.activity_view_record, cursor, from, to, 0);
+//        adapter.notifyDataSetChanged();
+//
+//        listView.setAdapter(adapter);
+//    }
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +69,10 @@ public class PlayLists extends AppCompatActivity {
 //        recyclerView.setAdapter(adapter);
     }
 
+    public void reload() {
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -64,19 +84,23 @@ public class PlayLists extends AppCompatActivity {
 
         int id = item.getItemId();
         if (id == R.id.add_record) {
-            // perform action to add record
-//            Intent add_mem = new Intent(this, AddPlaylistDialog.class);
-//            add_mem.putExtra("play_list",playLists);
-//            startActivity(add_mem);
-//            AddPlaylistDialog dialog = new AddPlaylistDialog();
-//            dialog.show();
             AddPlaylistDialog d = new AddPlaylistDialog();
             d.show(getSupportFragmentManager(),"ADD PLAYLIST");
 
+        }
+        if (id == R.id.delete_record) {
+            Intent delete_playlist = new Intent(this,Delete.class);
+            // delete_playlist.putExtra("play_lists",playLists);
+            startActivity(delete_playlist);
         }
         return super.onOptionsItemSelected(item);
     }
 
 
+    public void deleteItem(int position, String item) {
+
+            Toast.makeText(this, "You clicked on row number " + position, Toast.LENGTH_SHORT).show();
+
+    }
 
 }
