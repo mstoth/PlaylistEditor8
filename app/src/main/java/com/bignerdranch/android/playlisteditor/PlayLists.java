@@ -65,13 +65,18 @@ public class PlayLists extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.add_record) {
             // perform action to add record
-            Intent add_mem = new Intent(this, AddPlaylist.class);
-            add_mem.putExtra("play_list",playLists);
-            startActivity(add_mem);
+//            Intent add_mem = new Intent(this, AddPlaylistDialog.class);
+//            add_mem.putExtra("play_list",playLists);
+//            startActivity(add_mem);
+//            AddPlaylistDialog dialog = new AddPlaylistDialog();
+//            dialog.show();
+            AddPlaylistDialog d = new AddPlaylistDialog();
+            d.show(getSupportFragmentManager(),"ADD PLAYLIST");
 
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 }

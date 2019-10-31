@@ -30,6 +30,9 @@ public class Home extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_home);
         Toast.makeText(this,"Loading...",Toast.LENGTH_SHORT).show();
+        Button playListButton = (Button) findViewById(R.id.playlist_button);
+        playListButton.setEnabled(false);
+        playListButton.setText("Please Wait... Connecting");
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -42,7 +45,7 @@ public class Home extends Activity {
                     java.util.Properties config = new java.util.Properties();
                     config.put("StrictHostKeyChecking", "no");
                     session.setConfig(config);
-                    session.connect(10000);
+                    session.connect(5000);
 
                     // Now we are connected, get a list of the playlists on the organ
                     //val res = executeRemoteCommand(context,"ls /media/sda1/work","remoteuser","L\\9nW9TJaFZZuXHT","192.168.1.4")
@@ -75,6 +78,9 @@ public class Home extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Button playListButton = (Button) findViewById(R.id.playlist_button);
+                                playListButton.setEnabled(true);
+                                playListButton.setText("Go To Playlists");
                                 Toast.makeText(Home.this,"Loaded.",Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -85,15 +91,24 @@ public class Home extends Activity {
 
 
 
-                } catch (JSchException e) {
+                } catch (final JSchException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(Home.this,"Sorry, there is a problem connecting to the organ. " + e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                            Button playListButton = (Button) findViewById(R.id.playlist_button);
+                            playListButton.setEnabled(true);
+                            playListButton.setText("Go To Playlists");
+                        }
+                    });
                 }
 
             }
         });
         thread.start();
 
-        Button playListButton = (Button) findViewById(R.id.playlist_button);
+        //Button playListButton = (Button) findViewById(R.id.playlist_button);
         playListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

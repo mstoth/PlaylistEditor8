@@ -39,8 +39,8 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 // upload file name stored in myListData
-                Intent intent = new Intent(mContext, DownloadFile.class);
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, DownloadFile.class);
+//                mContext.startActivity(intent);
                 //Toast.makeText(view.getContext(),"click on item: "+myListData,Toast.LENGTH_LONG).show();
             }
         });
