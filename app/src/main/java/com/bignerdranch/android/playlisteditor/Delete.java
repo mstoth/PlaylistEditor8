@@ -30,7 +30,7 @@ public class Delete extends AppCompatActivity implements MyRecyclerViewAdapter.I
         Intent intent = getIntent();
 //        playLists = intent.getStringArrayListExtra("play_lists");
         setContentView(R.layout.activity_delete);
-
+        playLists = new ArrayList<String>();
         dbManager = new DBManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetch();
@@ -38,7 +38,7 @@ public class Delete extends AppCompatActivity implements MyRecyclerViewAdapter.I
 //        adapter = new SimpleCursorAdapter(this, R.layout.activity_view_record, cursor, from, to, 0);
 //        adapter.notifyDataSetChanged();
 
-        playLists.clear();
+//        playLists.clear();
         if (cursor.moveToFirst()){
             do{
                 String data = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
@@ -69,5 +69,7 @@ public class Delete extends AppCompatActivity implements MyRecyclerViewAdapter.I
         dbManager.open();
         Cursor cursor = dbManager.fetchWithName(name);
         dbManager.delete(cursor.getInt(0));
+        Intent intent = new Intent(Delete.this,PlayLists.class);
+        startActivity(intent);
     }
 }

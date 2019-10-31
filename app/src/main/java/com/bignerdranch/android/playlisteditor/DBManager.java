@@ -65,6 +65,7 @@ public class DBManager {
         String queryString2 = "SELECT * from " + DatabaseHelper.TABLE_NAME + " WHERE " + DatabaseHelper._ID + " = " + _id;
         Cursor cursor = database.rawQuery(queryString2,null);
         database.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper._ID + "=" + _id, null);
+
     }
 
 }
