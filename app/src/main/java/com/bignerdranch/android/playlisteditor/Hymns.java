@@ -9,11 +9,15 @@ public class Hymns extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final String[] names;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hymns);
         final AssetManager assets = this.getAssets();
         try {
-            final String[] names = assets.list("3C");
+            names = assets.list("3C");
+            if (names.length==0) {
+                System.out.println("NO HYMNS");
+            }
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
