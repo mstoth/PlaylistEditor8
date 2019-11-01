@@ -48,7 +48,6 @@ TextView nameTextView;
                 Intent intent = new Intent(Local.this,PlayLists.class);
                 Local.this.startActivity(intent);
 
-
             };
         });
     }

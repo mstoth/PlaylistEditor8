@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class PlayLists extends AppCompatActivity {
+public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -74,7 +74,9 @@ public class PlayLists extends AppCompatActivity {
 
         adapter = new MyRecyclerViewAdapter(this, playLists);
         adapter.notifyDataSetChanged();
-
+        listView.setLayoutManager(new LinearLayoutManager(this));
+        listView.setAdapter(adapter);
+        adapter.setClickListener(this);
 
 //        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.ZipRecyclerView);
 //        MyListAdapter adapter = new MyListAdapter(playLists);
@@ -82,6 +84,7 @@ public class PlayLists extends AppCompatActivity {
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        recyclerView.setAdapter(adapter);
     }
+
 
     public void reload() {
         adapter.notifyDataSetChanged();
@@ -92,6 +95,19 @@ public class PlayLists extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+
+    @Override
+    public void onItemClick(View view, int position) {
+        DBManager dbManager;
+        SimpleCursorAdapter adapter;
+        String name = playLists.get(position);
+        Intent intent = new Intent(PlayLists.this,Edit.class);
+        intent.putExtra("name",name);
+        startActivity(intent);
+
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
