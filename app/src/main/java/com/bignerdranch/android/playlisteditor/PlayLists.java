@@ -18,15 +18,16 @@ import java.util.ArrayList;
 
 public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private PlaylistAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private DBManager dbManager;
-    private MyRecyclerViewAdapter adapter;
+    private PlaylistAdapter adapter;
     final String[] from = new String[] { DatabaseHelper._ID,
             DatabaseHelper.NAME, DatabaseHelper.JSON };
     final int[] to = new int[] { R.id.id, R.id.name, R.id.json };
     private RecyclerView listView;
-    private ArrayList<String> playLists;
+    private ArrayList<Playlist> playLists;
+    private ArrayList<String> jsonData;
 
 //    @Override
 //    protected void onResume(Bundle savedInstanceState) {
@@ -48,7 +49,8 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         // playLists = intent.getStringArrayListExtra("playlists");
-        playLists = new ArrayList<String>();
+        playLists = new ArrayList<Playlist>();
+        jsonData = new ArrayList<String>();
         setContentView(R.layout.activity_play_lists);
 
         listView = (RecyclerView) findViewById(R.id.Zip2RecyclerView);
@@ -65,18 +67,20 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
         if (cursor.moveToFirst()){
             do{
                 String data = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
-                playLists.add(data);
+                Playlist p = new Playlist(data);
+                String jdata = cursor.getString(cursor.getColumnIndex(DatabaseHelper.JSON));
+                p.setJsonString(jdata);
+                playLists.add(p);
             } while(cursor.moveToNext());
         }
         cursor.close();
 
 
 
-        adapter = new MyRecyclerViewAdapter(this, playLists);
+        adapter = new PlaylistAdapter(playLists);
         adapter.notifyDataSetChanged();
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(adapter);
-        adapter.setClickListener(this);
 
 //        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.ZipRecyclerView);
 //        MyListAdapter adapter = new MyListAdapter(playLists);
@@ -101,9 +105,10 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
     public void onItemClick(View view, int position) {
         DBManager dbManager;
         SimpleCursorAdapter adapter;
-        String name = playLists.get(position);
+        Playlist p = playLists.get(position);
+        String name = p.getName();
         Intent intent = new Intent(PlayLists.this,Edit.class);
-        intent.putExtra("name",name);
+        intent.putExtra("name", name);
         startActivity(intent);
 
     }

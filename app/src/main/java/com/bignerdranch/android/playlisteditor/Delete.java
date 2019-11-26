@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class Delete extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
     private ArrayList<String> playLists;
+    private ArrayList<String> jsonData;
     private DBManager dbManager;
     private SimpleCursorAdapter adapter;
     final String[] from = new String[] { DatabaseHelper._ID,
@@ -31,6 +32,7 @@ public class Delete extends AppCompatActivity implements MyRecyclerViewAdapter.I
 //        playLists = intent.getStringArrayListExtra("play_lists");
         setContentView(R.layout.activity_delete);
         playLists = new ArrayList<String>();
+        jsonData = new ArrayList<String>();
         dbManager = new DBManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetch();
@@ -47,10 +49,10 @@ public class Delete extends AppCompatActivity implements MyRecyclerViewAdapter.I
         }
         cursor.close();
 
-        rvadapter = new MyRecyclerViewAdapter(this,playLists);
+        rvadapter = new MyRecyclerViewAdapter(this,playLists,jsonData);
         RecyclerView rv = findViewById(R.id.recyclerView4Delete);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        rvadapter= new MyRecyclerViewAdapter(Delete.this,playLists);
+        rvadapter= new MyRecyclerViewAdapter(Delete.this,playLists,jsonData);
         rvadapter.setClickListener(this);
         rv.setAdapter(rvadapter);
     }

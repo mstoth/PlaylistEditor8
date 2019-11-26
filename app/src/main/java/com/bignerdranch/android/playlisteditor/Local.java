@@ -42,7 +42,7 @@ TextView nameTextView;
                 dbManager.open();
                 Cursor cursor = dbManager.fetch();
 
-                String jsonContents = "{\"playlist\":{}}";
+                String jsonContents = "{\"playlist\":[]}";
                 dbManager.insert(nameTextView.getText().toString(),jsonContents);
 
                 Intent intent = new Intent(Local.this,PlayLists.class);

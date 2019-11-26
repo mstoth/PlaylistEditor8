@@ -14,19 +14,29 @@
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         android:orientation="vertical"
+        android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hymn_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="584dp" />
+            android:layout_height="488dp"
+            android:padding="20dp" />
 
         <Button
             android:id="@+id/add_hymns_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Hymns" />
+            android:text="Add Selected Hymns" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select the hymns you want in the playlist."
+            android:textAlignment="center" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

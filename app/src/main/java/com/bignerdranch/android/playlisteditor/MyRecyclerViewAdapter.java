@@ -12,14 +12,16 @@ import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> mData;
+    private List<String> mNames;
+    private List<String> mJSON;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    MyRecyclerViewAdapter(Context context, List<String> data) {
+    MyRecyclerViewAdapter(Context context, List<String> data, List<String> json) {
         this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+        this.mNames = data;
+        this.mJSON = json;
     }
 
     // inflates the row layout from xml when needed
@@ -32,14 +34,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position);
-        holder.myTextView.setText(animal);
+        String playlist = mNames.get(position);
+        holder.myTextView.setText(playlist);
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mNames.size();
     }
 
 
@@ -61,7 +63,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     // convenience method for getting data at click position
     String getItem(int id) {
-        return mData.get(id);
+        return mNames.get(id);
     }
 
     // allows clicks events to be caught
