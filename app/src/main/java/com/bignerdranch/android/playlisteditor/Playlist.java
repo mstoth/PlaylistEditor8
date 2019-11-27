@@ -6,6 +6,7 @@ public class Playlist {
     private String jsonString;
     private ArrayList<Song> mSongs;
     private String mName;
+
     public Playlist(String name) {
         mName = name;
         mSongs = new ArrayList<Song>();

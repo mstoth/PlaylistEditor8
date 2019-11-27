@@ -10,9 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,7 +23,7 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
     final String[] from = new String[] { DatabaseHelper._ID,
             DatabaseHelper.NAME, DatabaseHelper.JSON };
     final int[] to = new int[] { R.id.id, R.id.name, R.id.json };
-    private RecyclerView listView;
+    private RecyclerView rcycView;
     private ArrayList<Playlist> playLists;
     private ArrayList<String> jsonData;
 
@@ -37,7 +35,7 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
 //        adapter = new SimpleCursorAdapter(this, R.layout.activity_view_record, cursor, from, to, 0);
 //        adapter.notifyDataSetChanged();
 //
-//        listView.setAdapter(adapter);
+//        rcycView.setAdapter(adapter);
 //    }
 
 
@@ -53,7 +51,6 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
         jsonData = new ArrayList<String>();
         setContentView(R.layout.activity_play_lists);
 
-        listView = (RecyclerView) findViewById(R.id.Zip2RecyclerView);
 
         // setup database
         dbManager = new DBManager(this);
@@ -69,7 +66,7 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
                 String data = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
                 Playlist p = new Playlist(data);
                 String jdata = cursor.getString(cursor.getColumnIndex(DatabaseHelper.JSON));
-                p.setJsonString(jdata);
+                    p.setJsonString(jdata);
                 playLists.add(p);
             } while(cursor.moveToNext());
         }
@@ -78,15 +75,12 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
 
 
         adapter = new PlaylistAdapter(playLists);
+        rcycView = (RecyclerView) findViewById(R.id.Zip2RecyclerView);
+        rcycView.setHasFixedSize(true);
         adapter.notifyDataSetChanged();
-        listView.setLayoutManager(new LinearLayoutManager(this));
-        listView.setAdapter(adapter);
+        rcycView.setLayoutManager(new LinearLayoutManager(this));
+        rcycView.setAdapter(adapter);
 
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.ZipRecyclerView);
-//        MyListAdapter adapter = new MyListAdapter(playLists);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapter);
     }
 
 

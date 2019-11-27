@@ -14,7 +14,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 public class Hymns extends AppCompatActivity {
-ArrayList<Hymn> hymns;
+ArrayList<String> hymns;
 String[] names;
 ArrayList<Boolean> selected;
 String title;
@@ -38,7 +38,6 @@ String title;
 
         String title = getIntent().getStringExtra("name");
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.hymn_recycler_view);
-        hymns = Hymn.createHymnList(names);
         Button addHymnsButton = (Button) findViewById(R.id.add_hymns_button);
 
         addHymnsButton.setOnClickListener(new View.OnClickListener() {
@@ -50,15 +49,8 @@ String title;
             }
         });
 
-        if (selected == null) {
-            // initially nothing selected
-            selected = new ArrayList<Boolean>();
-            for (int i = 0; i < hymns.size(); i++) {
-                selected.add(false);
-            }
-        }
 
-        HymnsAdapter adapter = new HymnsAdapter(hymns,selected);
+        HymnsAdapter adapter = new HymnsAdapter(hymns);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

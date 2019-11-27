@@ -16,19 +16,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HymnsAdapter extends
         RecyclerView.Adapter<HymnsAdapter.ViewHolder> {
 
 
-    private List<Hymn> mHymns;
+    private ArrayList<String> mHymns;
 
     private List<Boolean> selected;
 
-    public HymnsAdapter(List<Hymn> hymns, List<Boolean> sel) {
+    public HymnsAdapter(ArrayList<String> hymns) {
         mHymns = hymns;
-        selected = sel;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder  {
@@ -46,36 +46,36 @@ public class HymnsAdapter extends
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View hymnView = inflater.inflate(R.layout.item_hymn,parent,false);
+        View hymnView = inflater.inflate(R.layout.item_songlist,parent,false);
         ViewHolder viewHolder = new ViewHolder(hymnView);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final Hymn hymn = mHymns.get(position);
+        final String hymn = mHymns.get(position);
         TextView textView = holder.titleTextView;
-        textView.setText(hymn.getTitle());
+        textView.setText(hymn);
 //        if (selected.get(position)) {
 //            holder.titleTextView.setBackgroundColor(Color.GREEN);
 //        } else {
 //            holder.titleTextView.setBackgroundColor(Color.WHITE);
 //        }
 
-        holder.hymnLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selected.get(position)) {
-                    selected.set(position,false);
-                    removeHymnFromPlaylist(hymn.getTitle());
-                    v.setBackgroundColor(Color.WHITE);
-                } else {
-                    selected.set(position,true);
-                    addHymnToPlaylist(hymn.getTitle(),hymn.getJSON());
-                    v.setBackgroundColor(Color.GREEN);
-                }
-            }
-        });
+//        holder.hymnLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (selected.get(position)) {
+//                    selected.set(position,false);
+//                    removeHymnFromPlaylist(hymn.getTitle());
+//                    v.setBackgroundColor(Color.WHITE);
+//                } else {
+//                    selected.set(position,true);
+//                    addHymnToPlaylist(hymn.getTitle(),hymn.getJSON());
+//                    v.setBackgroundColor(Color.GREEN);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -85,7 +85,7 @@ public class HymnsAdapter extends
 
     public void addHymnToPlaylist(String title,String jsonStr) {
         for (int i=0; i<mHymns.size(); i++) {
-            if (mHymns.get(i).getTitle() == title) {
+            if (mHymns.get(i) == title) {
                 selected.set(i,true);
             }
         }
@@ -93,7 +93,7 @@ public class HymnsAdapter extends
 
     public void removeHymnFromPlaylist(String title) {
         for (int i=0; i<mHymns.size(); i++) {
-            if (mHymns.get(i).getTitle() == title) {
+            if (mHymns.get(i) == title) {
                 selected.set(i,false);
             }
         }

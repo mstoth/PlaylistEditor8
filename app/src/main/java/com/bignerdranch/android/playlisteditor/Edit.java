@@ -1,6 +1,7 @@
 package com.bignerdranch.android.playlisteditor;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -10,46 +11,59 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class Edit extends AppCompatActivity {
-private String name;
+private String title;
+private String jsonStr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayList<String> selectedHymns = new ArrayList<String>();
-        ArrayList<Boolean> selected = new ArrayList<Boolean>();
+        ArrayList<Song> songs = new ArrayList<Song>();
         Intent intent = getIntent();
-        selectedHymns = intent.getStringArrayListExtra("hymns");
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        SongsAdapter adapter;
+        RecyclerView recyclerView = findViewById(R.id.songRecyclerView);
 
         setContentView(R.layout.activity_edit);
         EditText nameTextView = (EditText) findViewById(R.id.name_text_view);
-        name = intent.getStringExtra("name");
+        songs = new ArrayList<Song>();
+        songs.clear();
 
-        if (name != null) {
-            nameTextView.setText(name);
+        title = intent.getStringExtra("title");
+        jsonStr = intent.getStringExtra("jsonStr");
+        try  {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            System.out.println(jsonObject.toString());
+        } catch(Exception e) {
+            e.printStackTrace();
         }
 
-        selected = (ArrayList<Boolean>) intent.getSerializableExtra("selected");
-        if (selected != null) {
-            // now we have an boolean array of selected hymns from the Hymns activity
-            System.out.println(selected.size());
-
-        } else {
-            System.out.println("No Selected");
+        if (title != null) {
+            nameTextView.setText(title);
         }
+
+
+
         Button hymn_button = (Button) findViewById(R.id.hymn_button);
         hymn_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Edit.this,Hymns.class);
-                intent.putExtra("name",name);
+                intent.putExtra("title",title);
 
                 startActivity(intent);
             }
         });
+
+        adapter = new SongsAdapter(songs);
+        recyclerView = (RecyclerView) findViewById(R.id.songRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        adapter.notifyDataSetChanged();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
 
     }
 }
