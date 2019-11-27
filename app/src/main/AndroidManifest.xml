@@ -17,6 +17,7 @@
         <activity android:name=".Edit" />
         <activity android:name=".Delete" />
         <activity android:name=".Local" />
+        <activity android:name=".AddSong" />
         <activity android:name=".Import" />
         <activity android:name=".DownloadFile" />
         <activity android:name=".AddPlaylist" />

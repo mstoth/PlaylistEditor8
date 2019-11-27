@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SongsAdapter extends
@@ -16,7 +17,7 @@ public class SongsAdapter extends
 
     private List<Song> mSongList;
 
-    public SongsAdapter(List<Song> songs) {
+    public SongsAdapter(ArrayList<Song> songs) {
         mSongList = songs;
     }
 

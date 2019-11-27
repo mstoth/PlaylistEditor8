@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -38,6 +39,15 @@ private String jsonStr;
         try  {
             JSONObject jsonObject = new JSONObject(jsonStr);
             System.out.println(jsonObject.toString());
+            JSONArray playList = (JSONArray) jsonObject.getJSONArray("playlist");
+            System.out.println(playList.toString());
+            System.out.println(playList.length());
+            if (playList.length()>0) {
+                JSONObject song = playList.getJSONObject(0);
+            } else {
+                // create sample song
+                songs.add(new Song("New Song"));
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -46,18 +56,6 @@ private String jsonStr;
             nameTextView.setText(title);
         }
 
-
-
-//        Button hymn_button = (Button) findViewById(R.id.hymn_button);
-//        hymn_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Edit.this,Hymns.class);
-//                intent.putExtra("title",title);
-//
-//                startActivity(intent);
-//            }
-//        });
 
         adapter = new SongsAdapter(songs);
         recyclerView = (RecyclerView) findViewById(R.id.songRecyclerView);
@@ -77,11 +75,12 @@ private String jsonStr;
         if (id == R.id.add_record) {
             // AddPlaylistDialog d = new AddSongDialog();
             // d.show(getSupportFragmentManager(),"ADD SONG");
-
+            Intent add_song = new Intent(getApplicationContext(),AddSong.class);
+            startActivity(add_song);
         }
         if (id == R.id.delete_record) {
-            Intent delete_song = new Intent(this,DeleteSong.class);
-            startActivity(delete_song);
+//            Intent delete_song = new Intent(this,DeleteSong.class);
+//            startActivity(delete_song);
         }
         return super.onOptionsItemSelected(item);
     }
