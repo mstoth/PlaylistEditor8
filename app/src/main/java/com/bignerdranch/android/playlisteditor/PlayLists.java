@@ -27,26 +27,12 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
     private ArrayList<Playlist> playLists;
     private ArrayList<String> jsonData;
 
-//    @Override
-//    protected void onResume(Bundle savedInstanceState) {
-//        super.onResume();
-//        Cursor cursor = dbManager.fetch();
-//
-//        adapter = new SimpleCursorAdapter(this, R.layout.activity_view_record, cursor, from, to, 0);
-//        adapter.notifyDataSetChanged();
-//
-//        rcycView.setAdapter(adapter);
-//    }
-
-
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        // playLists = intent.getStringArrayListExtra("playlists");
         playLists = new ArrayList<Playlist>();
         jsonData = new ArrayList<String>();
         setContentView(R.layout.activity_play_lists);
@@ -56,9 +42,6 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
         dbManager = new DBManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetch();
-
-//        adapter = new SimpleCursorAdapter(this, R.layout.activity_view_record, cursor, from, to, 0);
-//        adapter.notifyDataSetChanged();
 
         playLists.clear();
         if (cursor.moveToFirst()){
@@ -71,8 +54,6 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
             } while(cursor.moveToNext());
         }
         cursor.close();
-
-
 
         adapter = new PlaylistAdapter(playLists);
         rcycView = (RecyclerView) findViewById(R.id.Zip2RecyclerView);
@@ -119,7 +100,6 @@ public class PlayLists extends AppCompatActivity implements MyRecyclerViewAdapte
         }
         if (id == R.id.delete_record) {
             Intent delete_playlist = new Intent(this,Delete.class);
-            // delete_playlist.putExtra("play_lists",playLists);
             startActivity(delete_playlist);
         }
         return super.onOptionsItemSelected(item);

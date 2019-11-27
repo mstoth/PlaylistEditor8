@@ -18,23 +18,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/hymn_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hymns" />
+<!--        <Button-->
+<!--            android:id="@+id/hymn_button"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Hymns" />-->
 
-        <Button
-            android:id="@+id/performance_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Performances" />
+<!--        <Button-->
+<!--            android:id="@+id/performance_button"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Performances" />-->
 
-        <Button
-            android:id="@+id/recording_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Recordings" />
+<!--        <Button-->
+<!--            android:id="@+id/recording_button"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Recordings" />-->
 
         <EditText
             android:id="@+id/name_text_view"

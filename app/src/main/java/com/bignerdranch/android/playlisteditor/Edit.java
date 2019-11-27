@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,16 +48,16 @@ private String jsonStr;
 
 
 
-        Button hymn_button = (Button) findViewById(R.id.hymn_button);
-        hymn_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Edit.this,Hymns.class);
-                intent.putExtra("title",title);
-
-                startActivity(intent);
-            }
-        });
+//        Button hymn_button = (Button) findViewById(R.id.hymn_button);
+//        hymn_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Edit.this,Hymns.class);
+//                intent.putExtra("title",title);
+//
+//                startActivity(intent);
+//            }
+//        });
 
         adapter = new SongsAdapter(songs);
         recyclerView = (RecyclerView) findViewById(R.id.songRecyclerView);
@@ -66,4 +68,28 @@ private String jsonStr;
 
 
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.add_record) {
+            // AddPlaylistDialog d = new AddSongDialog();
+            // d.show(getSupportFragmentManager(),"ADD SONG");
+
+        }
+        if (id == R.id.delete_record) {
+            Intent delete_song = new Intent(this,DeleteSong.class);
+            startActivity(delete_song);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
 }
