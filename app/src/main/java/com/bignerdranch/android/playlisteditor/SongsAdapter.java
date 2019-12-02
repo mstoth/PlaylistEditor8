@@ -42,8 +42,14 @@ public class SongsAdapter extends
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mSongList.size();
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return R.layout.item_songlist;
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Context mContext;
