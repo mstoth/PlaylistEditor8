@@ -4,4 +4,16 @@
     <string name="playlists">Go To Playlists</string>
     <string name="version">Version 1.0</string>
     <string name="copyright">Copyright 2019 Allen Organ Co. All Rights Reserved</string>
+    <string name="title_activity_edit_song">EditSong</string>
+    <string-array name="num_verses">
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+        <item>"8"</item>
+        <item>"9"</item>
+    </string-array>
 </resources>

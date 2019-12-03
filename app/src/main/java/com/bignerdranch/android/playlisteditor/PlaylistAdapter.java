@@ -37,6 +37,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         final String title = mPlaylists.get(position).getName();
         final String jsonStr = mPlaylists.get(position).getJsonString();
         TextView textView = holder.nameTextView;
+
         holder.nameTextView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

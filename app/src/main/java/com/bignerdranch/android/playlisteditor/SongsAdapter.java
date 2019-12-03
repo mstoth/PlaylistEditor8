@@ -1,6 +1,8 @@
 package com.bignerdranch.android.playlisteditor;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +19,20 @@ public class SongsAdapter extends
         RecyclerView.Adapter<SongsAdapter.ViewHolder> {
 
     private List<Song> mSongList;
-
+    private  Context mContext;
+    private ViewGroup mParent;
+    private LayoutInflater mInflater;
+    private View.OnClickListener v;
     public SongsAdapter(ArrayList<Song> songs) {
         mSongList = songs;
+    }
+    private SongsAdapter.ItemClickListener mClickListener;
+    public ArrayList<Song> selectedSongs;
+
+    SongsAdapter(Context context, List<Song> data) {
+        this.mSongList = data;
+        this.mInflater = LayoutInflater.from(context);
+        selectedSongs = new ArrayList<Song>();
     }
 
     @NonNull
@@ -31,12 +45,56 @@ public class SongsAdapter extends
         return viewHolder;
     }
 
+
+    // determines if song is selected
+    boolean isSelected(Song s) {
+        if (selectedSongs == null) {
+            return false;
+        }
+        if (selectedSongs.size()>0) {
+            for (int i = 0; i < selectedSongs.size(); i++) {
+                if (s.getName() == mSongList.get(i).getName()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // removes song from selected list
+    void removeSongFromSelected(Song s) {
+        for (int i = 0; i < mSongList.size(); i++) {
+            if (s.getName() == mSongList.get(i).getName()) {
+                selectedSongs.remove(s);
+                return;
+            }
+        }
+    }
+
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+
         String title = mSongList.get(position).getName();
         String jsonStr = mSongList.get(position).getJSON();
         TextView textView = holder.nameTextView;
+
         textView.setText(title);
+
+        textView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Song s = mSongList.get(position);
+                TextView name = v.findViewById(R.id.songlist_name);
+                if (isSelected(s)){
+                    name.setBackgroundColor(Color.WHITE);
+                    selectedSongs.remove(s);
+                } else {
+                    name.setBackgroundColor(Color.GREEN);
+                    selectedSongs.add(s);
+                }
+            }
+        });
     }
 
 
@@ -69,4 +127,19 @@ public class SongsAdapter extends
             }
         }
     }
+
+    // parent activity will implement this method to respond to click events
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+    // convenience method for getting data at click position
+    Song getItem(int id) {
+        return mSongList.get(id);
+    }
+
+    // allows clicks events to be caught
+    void setClickListener(SongsAdapter.ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
 }
