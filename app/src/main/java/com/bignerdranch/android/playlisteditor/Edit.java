@@ -37,6 +37,7 @@ public class Edit extends AppCompatActivity {
 private String title;
 private String jsonStr,jsonStrFromFile;
 ArrayList<Song> songs = new ArrayList<Song>();
+ArrayList<Song> selectedSongs = new ArrayList<Song>();
 private Playlist selectedPlaylist;
 
     @Override
@@ -133,7 +134,7 @@ private Playlist selectedPlaylist;
             }
         });
 
-        adapter = new SongsAdapter(songs);
+        adapter = new SongsAdapter(songs,selectedSongs);
         recyclerView = (RecyclerView) findViewById(R.id.songRecyclerView);
         recyclerView.setHasFixedSize(true);
         adapter.notifyDataSetChanged();
@@ -152,6 +153,7 @@ private Playlist selectedPlaylist;
 
             Intent add_song = new Intent(getApplicationContext(),AddSong.class);
             add_song.putExtra("jsonStr",jsonStr);
+            add_song.putExtra("title",title);
             startActivity(add_song);
         }
         if (id == R.id.delete_record) {

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class DeleteSong extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
-    private ArrayList<Song> songs;
+    private ArrayList<Song> songs,selectedSongs;
     private DBManager dbManager;
     private SimpleCursorAdapter adapter;
     final String[] from = new String[] { DatabaseHelper._ID,
@@ -31,6 +31,7 @@ public class DeleteSong extends AppCompatActivity implements MyRecyclerViewAdapt
 //        playLists = intent.getStringArrayListExtra("play_lists");
         setContentView(R.layout.activity_delete);
         songs = new ArrayList<Song>();
+        selectedSongs = new ArrayList<Song>();
         dbManager = new DBManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetch();
@@ -47,7 +48,7 @@ public class DeleteSong extends AppCompatActivity implements MyRecyclerViewAdapt
         }
         cursor.close();
 
-        rvadapter = new SongsAdapter(songs);
+        rvadapter = new SongsAdapter(songs,selectedSongs);
         RecyclerView rv = findViewById(R.id.recyclerView4Delete);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(rvadapter);

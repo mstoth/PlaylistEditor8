@@ -17,18 +17,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongsAdapter extends
-        RecyclerView.Adapter<SongsAdapter.ViewHolder> {
+        RecyclerView.Adapter<SongsAdapter.ViewHolder>  {
 
-    private List<Song> mSongList;
+    private List<Song> mSongList,mSelected;
     private  Context mContext;
     private ViewGroup mParent;
     private LayoutInflater mInflater;
     private View.OnClickListener v;
-    public SongsAdapter(ArrayList<Song> songs) {
+    public SongsAdapter(ArrayList<Song> songs,ArrayList<Song> sel) {
         mSongList = songs;
+        mSelected = sel;
     }
     private SongsAdapter.ItemClickListener mClickListener;
-    public ArrayList<Song> selectedSongs;
+    public ArrayList<Song> selectedSongs, selectedPreludes, selectedRecordings;
 
     SongsAdapter(Context context, List<Song> data) {
         this.mSongList = data;
@@ -84,6 +85,12 @@ public class SongsAdapter extends
         if (selectedSongs == null) {
             selectedSongs = new ArrayList<Song>();
         }
+        if (selectedRecordings == null) {
+            selectedSongs = new ArrayList<Song>();
+        }
+        if (selectedPreludes == null) {
+            selectedPreludes = new ArrayList<Song>();
+        }
         textView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -92,6 +99,7 @@ public class SongsAdapter extends
                 TextView name = v.findViewById(R.id.songlist_name);
                 if (isSelected(s)){
                     name.setBackgroundColor(Color.WHITE);
+
                     selectedSongs.remove(s);
                 } else {
                     name.setBackgroundColor(Color.GREEN);
