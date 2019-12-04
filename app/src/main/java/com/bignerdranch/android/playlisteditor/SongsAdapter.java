@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class SongsAdapter extends
         }
         if (selectedSongs.size()>0) {
             for (int i = 0; i < selectedSongs.size(); i++) {
-                if (s.getName() == mSongList.get(i).getName()) {
+                if (s.getName() == selectedSongs.get(i).getName()) {
                     return true;
                 }
             }
@@ -79,7 +80,10 @@ public class SongsAdapter extends
         TextView textView = holder.nameTextView;
 
         textView.setText(title);
-
+        // seems the constructor is not called?  selectedSongs is null first time.
+        if (selectedSongs == null) {
+            selectedSongs = new ArrayList<Song>();
+        }
         textView.setOnClickListener(new View.OnClickListener() {
 
             @Override
