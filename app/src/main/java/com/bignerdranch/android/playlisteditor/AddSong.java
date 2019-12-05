@@ -140,20 +140,16 @@ public class AddSong extends AppCompatActivity implements SongsAdapter.ItemClick
                     System.out.println(json_str);
                     dbManager = new DBManager(getApplicationContext());
                     dbManager.open();
-                    Cursor cursor = dbManager.fetch();
-                    if (cursor.moveToFirst()){
-                        do{
-                            String data = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
-                            if (data == title) {
-
-                            }
-                            Playlist p = new Playlist(data);
-                            String jdata = cursor.getString(cursor.getColumnIndex(DatabaseHelper.JSON));
-                            p.setJsonString(jdata);
-                            playLists.add(p);
-                        } while(cursor.moveToNext());
+                    Cursor cursor = dbManager.fetchWithName(title);
+                    if (cursor == null) {
+                        // not in the database, add it.
+                        dbManager.insert(title,json_str);
+                    } else {
+                        int id = cursor.getInt(0);
+                        dbManager.update(id,title,json_str);
                     }
                     cursor.close();
+                    dbManager.close();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

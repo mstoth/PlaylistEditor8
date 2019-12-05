@@ -85,6 +85,13 @@ private Playlist selectedPlaylist;
             System.out.println(playList.toString());
             System.out.println(playList.length());
             System.out.println(jsonStrFromFile);
+            if (playList.length()>0) {
+                for (int i=0; i<playList.length(); i++) {
+                    System.out.println(playList.get(i));
+                    Object jo = playList.get(i);
+                    System.out.println(jo.toString());
+                }
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }
