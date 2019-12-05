@@ -3,6 +3,7 @@ package com.bignerdranch.android.playlisteditor;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,6 +37,7 @@ public class AddSong extends AppCompatActivity implements SongsAdapter.ItemClick
     Button performancesButton;
     Button hymnButton;
     Button recordingButton;
+    private DBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,24 +103,62 @@ public class AddSong extends AppCompatActivity implements SongsAdapter.ItemClick
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                JSONObject jobj;
+                JSONArray jfiles;
+                JSONObject jfile;
+
                 // copy files to directory
                 AssetManager manager = getApplicationContext().getAssets();
                 selectedHymns = adapter.selectedSongs;
-                for (int i=0;i<selectedHymns.size();i++) {
-                    System.out.println(selectedHymns.get(i).getName());
+                try {
+                    jobj = new JSONObject(jsonStr);
+                    jfiles = jobj.getJSONArray("playlist");
+                    System.out.println(jfiles.length());
+                    for (int i=0;i<selectedHymns.size();i++) {
+                        Song ss = selectedHymns.get(i);
+
+                        System.out.println(selectedHymns.get(i).getName());
+                        try {
+                            jobj = new JSONObject(jsonStr);
+                            jfiles = jobj.getJSONArray("playlist");
+                            System.out.println(jfiles.length());
+
+                            AssetFileDescriptor fd = manager.openFd("3C/hymns/"+ss.getName()+".MID");
+                            String destDir = getFilesDir().getAbsolutePath() + "/" + title;
+                            InputStream in = manager.open("3C/hymns/"+ss.getName()+".MID");
+                            File outFile = new File(getFilesDir(),title+"/"+ss.getName()+".MID");
+                            FileOutputStream out = new FileOutputStream(outFile);
+                            copyFile(in,out);
+                            JSONObject jo = new JSONObject("{\"file\":\"" + ss.getName()+".MID\",\"tempo_adjust\":100,\"verses\":2,\"intro\":true}");
+                            jfiles.put(jo);
+                            System.out.println(jfiles.toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    String json_str = "{\"playlist\":" + jfiles.toString() + "}";
+                    System.out.println(json_str);
+                    dbManager = new DBManager(getApplicationContext());
+                    dbManager.open();
+                    Cursor cursor = dbManager.fetch();
+                    if (cursor.moveToFirst()){
+                        do{
+                            String data = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
+                            if (data == title) {
+
+                            }
+                            Playlist p = new Playlist(data);
+                            String jdata = cursor.getString(cursor.getColumnIndex(DatabaseHelper.JSON));
+                            p.setJsonString(jdata);
+                            playLists.add(p);
+                        } while(cursor.moveToNext());
+                    }
+                    cursor.close();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-//                File source = manager.openFd();
-//
-//                String destinationPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/TongueTwister/tt_1A.3gp";
-//                File destination = new File(destinationPath);
-//                try
-//                {
-//                    FileUtils.copyFile(source, destination);
-//                }
-//                catch (IOException e)
-//                {
-//                    e.printStackTrace();
-//                }
+
             }
         });
 
